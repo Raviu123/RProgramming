@@ -13,19 +13,13 @@ matrix_minima_method <- function(cost_matrix, supply, demand) {
   
   while (any(supply_left > 0) && any(demand_left > 0)) {
     
-    # Find minimum cost among valid cells
-    valid_rows <- supply_left > 0
-    valid_cols <- demand_left > 0
-    
-    sub_matrix <- cost_matrix[valid_rows, valid_cols, drop = FALSE]
-    min_cost <- min(sub_matrix, na.rm = TRUE)
+     min_cost <- min(cost_matrix[supply_left>0,demand_left>0], na.rm = TRUE)
     
     indices <- which(cost_matrix == min_cost, arr.ind = TRUE)
     
     # Filter valid indices
     indices <- indices[
-      supply_left[indices[,1]] > 0 &
-        demand_left[indices[,2]] > 0,
+      supply_left[indices[,1]] > 0 & demand_left[indices[,2]] > 0,
       , drop = FALSE
     ]
     
